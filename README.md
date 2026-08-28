@@ -85,6 +85,20 @@ uvicorn main:app --reload
 {"message": "Task API v1.0.0 is running."}
 ```
 
+## Frontend
+
+A vanilla HTML/CSS/JS UI lives in `frontend/`. The API does not send CORS headers, so the UI is served by a small stdlib proxy that forwards `/tasks` to Uvicorn.
+
+With the API already running on port 8000, in another terminal:
+
+```bash
+python frontend/server.py
+```
+
+Open [http://127.0.0.1:5500](http://127.0.0.1:5500). You can add a task, toggle completed, and delete.
+
+Do not open `index.html` as a file or from another static server; those origins cannot call the API.
+
 ## API reference
 
 | Method | Path | Body | Success |
@@ -135,8 +149,13 @@ task-api/
 ├── database.py        # Supabase client from .env
 ├── models/
 │   └── task.py        # Task and TaskUpdate models
-└── routes/
-    └── tasks.py       # CRUD routes
+├── routes/
+│   └── tasks.py       # CRUD routes
+└── frontend/
+    ├── index.html     # Task UI
+    ├── styles.css
+    ├── app.js
+    └── server.py      # Static files + /tasks proxy
 ```
 
 ## Note
